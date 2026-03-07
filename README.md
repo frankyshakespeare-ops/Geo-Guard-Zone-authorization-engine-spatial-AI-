@@ -21,7 +21,7 @@ This is not just a map, it is a decision engine that processes thousands of posi
 - **Space engine** using **PostGIS** and **Shapely** for geometric calculations (point in polygon).
 - **GiST Spatial Indexing** for efficient queries on large volumes of data.
 - **Dynamic zone management** : filtering by schedule, weather conditions, congestion level.
-- **Mass simulation** : insertion and questioning of 100,000 delivery people.
+- **Mass simulation** : insertion and questioning of 2000 delivery people.
 - **Machine Learning** :
 - Clustering orders with **DBSCAN** to identify high-demand areas. 
 - Anomaly detection (couriers outside the zone). 
@@ -67,7 +67,7 @@ cd delivery-zone-engine
 ```bash
 docker-compose up -d
 ```
-The database will be accessible on localhost:5432 (user postgres, password postgres, database delivery_zones).
+The database will be accessible on localhost:5433 (user postgres, password postgres, database delivery_zones).
 
 ### 3. Manual installation (without Docker)
 
@@ -79,14 +79,14 @@ The database will be accessible on localhost:5432 (user postgres, password postg
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # ou venv\Scripts\activate sous Windows
+source venv\Scripts\activate 
 pip install -r requirements.txt
 ```
 
 ### 5. Initialize the database
 ```bash
 python scripts/init_db.py
-python scripts/insert_zones.py   # insertion de zones exemple (Nairobi)
+python scripts/insert_zones.py 
 ```
 
 ### 6. Launch the API
@@ -96,14 +96,21 @@ uvicorn app.main:app --reload
 
 The API is accessible at http://localhost:8000. The interactive Swagger documentation is available at http://localhost:8000/docs.
 
-### 7. (Optional) Simulate 100,000 delivery people
+![API Preview](static/test_1_3n.png)
+
+
+### 7. (Optional) Simulate 2000 delivery people
 ```bash
 python scripts/simulate_drivers.py
 ```
+![Simulate Preview](static/test_2_2000points.png)
 
 ### 8. View the map
 
 Open http://localhost:8000/static/index.html to display the interactive map.
+
+![map Preview](static/dashboard.png)
+
 
 ## Use of the API
 
@@ -156,7 +163,7 @@ curl -X POST "http://localhost:8000/can_accept_order" \
 ## Advanced Features (Version 3)
 
 ### Order Clustering
-The endpoint /clustering/orders?eps=0.01&min_samples=5 applies the DBSCAN algorithm to the positions of recorded orders. The resulting clusters can be used to optimize the placement of delivery drivers or to generate heatmaps.
+The endpoint /clustering/orders eps=0.01&min_samples=5 applies the DBSCAN algorithm to the positions of recorded orders. The resulting clusters can be used to optimize the placement of delivery drivers or to generate heatmaps.
 
 ### Anomaly Detection
 The system continuously monitors the positions of delivery drivers and identifies those who are outside authorized areas. These anomalies are accessible via /drivers/anomalies.
@@ -195,7 +202,7 @@ This approach makes the project realistic and relevant for applications in the K
 
 - **Optimized queries:** use of ST_Contains with index
 
-- **Load testing:** tested with 100,000 couriers and millions of simulated orders without significant performance degradation
+- **Load testing:** tested with 2000 couriers and millions of simulated orders without significant performance degradation
 
 - **Modular architecture** allowing easy addition of new features (Redis cache, load balancing, etc.)
 
@@ -254,10 +261,10 @@ This project demonstrates my mastery of the following areas:
 ## License
 This project is under the MIT license. See the LICENSE file for more details.
 
-## 👤 Author
+##  Author
 
 Francky Shakespeare GBANDI Geospacial Data scientist
 
-- 📧 frankyshakespeare@gmail.com
+-  frankyshakespeare@gmail.com
 
 Feel free to contact me for any questions, suggestions, or professional opportunities!
