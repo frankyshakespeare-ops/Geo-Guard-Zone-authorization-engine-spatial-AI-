@@ -7,7 +7,7 @@ from app.models import Zone
 from geoalchemy2 import WKTElement
 from shapely import wkt
 
-# Définition de quelques zones approximatives à Nairobi
+# Definition of some approximate areas in Nairobi
 zones_data = [
     {
         "name": "CBD",
@@ -35,17 +35,17 @@ zones_data = [
 db = SessionLocal()
 try:
     for z in zones_data:
-        # On vérifie si la zone existe déjà pour éviter les doublons
+        # Check if the zone already exists to avoid duplicates
         existing = db.query(Zone).filter(Zone.name == z["name"]).first()
         if not existing:
             geom = WKTElement(z["wkt_polygon"], srid=4326)
             zone = Zone(name=z["name"], geom=geom)
             db.add(zone)
-            print(f"Insertion de la zone : {z['name']}")
+            print(f"Zone added: {z['name']}")
     db.commit()
-    print("--- Toutes les zones ont été traitées avec succès. ---")
+    print(" All zones have been processed successfully")
 except Exception as e:
     db.rollback()
-    print(f"Erreur lors de l'insertion : {e}")
+    print(f"Error during insertion: {e}")
 finally:
     db.close()

@@ -4,9 +4,9 @@ import time
 
 # Configuration
 API_URL = "http://127.0.0.1:8000/can_accept_order"
-NUM_TESTS = 2000  # Nombre de points à tester
+NUM_TESTS = 2000  # Number of points to test
 
-# Limites géographiques approximatives de Nairobi pour le test
+# Approximate geographic boundaries of Nairobi for testing
 LAT_MIN, LAT_MAX = -1.45, -1.15
 LON_MIN, LON_MAX = 36.65, 36.95
 
@@ -18,7 +18,7 @@ def run_benchmark():
     authorized_count = 0
 
     for i in range(NUM_TESTS):
-        # Génération d'un point aléatoire
+        # Generation of a random point
         payload = {
             "driver_id": i,
             "lat": random.uniform(LAT_MIN, LAT_MAX),
